@@ -1,6 +1,32 @@
 // Write your types here! ✨
 
-let current = {
+type TBase = {
+	name: string;
+	proximity: number;
+	type: TMapType;
+};
+
+type TMapType = "clearing" | "path" | "town" | "stream";
+type TArea = "begin" | "middle" | "end";
+
+type TThroughBase = TBase & {
+	area?: TArea;
+	shortcut?: TBase;
+	treasure?: string;
+};
+
+type TThrough =
+	| (TThroughBase & {
+			through?: TThrough;
+			downstream?: TThrough;
+			upstream?: TThrough;
+			around?: TThrough;
+	  })
+	| undefined;
+
+type TMap = TThrough;
+
+let current: TMap = {
 	name: "Woesong Bridge",
 	proximity: 100,
 	through: {

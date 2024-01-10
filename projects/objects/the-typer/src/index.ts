@@ -1,32 +1,53 @@
 // Write your types here! ✨
 
-type TBase = {
+export type PlaceBase = {
 	name: string;
 	proximity: number;
-	type: TMapType;
-};
-
-type TMapType = "clearing" | "path" | "town" | "stream";
-type TArea = "begin" | "middle" | "end";
-
-type TThroughBase = TBase & {
-	area?: TArea;
-	shortcut?: TBase;
 	treasure?: string;
 };
 
-type TThrough =
-	| (TThroughBase & {
-			through?: TThrough;
-			downstream?: TThrough;
-			upstream?: TThrough;
-			around?: TThrough;
-	  })
-	| undefined;
+export type Clearing = PlaceBase & {
+	through?: Place;
+	type: "clearing";
+};
 
-type TMap = TThrough;
+export type Path = PlaceBase & {
+	shortcut?: Place;
+	through: Place;
+	type: "path";
+};
 
-let current: TMap = {
+export type Town = PlaceBase & {
+	around?: Place;
+	through?: Place;
+	type: "town";
+};
+
+export type StreamBase = PlaceBase & {
+	type: "stream";
+};
+
+export type StreamEnd = StreamBase & {
+	area: "end";
+	upstream: Place;
+};
+
+export type StreamBegin = StreamBase & {
+	area: "begin";
+	downstream: Place;
+};
+
+export type StreamMiddle = StreamBase & {
+	area: "middle";
+	downstream: Place;
+	upstream: Place;
+};
+
+export type Stream = StreamBegin | StreamEnd | StreamMiddle;
+
+export type Place = Clearing | Town | Path | Stream;
+
+let current: Place | undefined = {
 	name: "Woesong Bridge",
 	proximity: 100,
 	through: {

@@ -11,8 +11,15 @@ export function deepDifferences(a: string[][], b: string[][]) {
 			continue;
 		}
 
-		for (let j = 0; j < a[i].length; i++) {
-			result.push(a[i][j] === b[i][j] ? [a[i][j]] : undefined);
+		result.push([]);
+
+		const inner = result[i];
+
+		for (let j = 0; j < a[i].length; j++) {
+			if (a[i][j] === b[i][j]) inner?.push(a[i][j]);
+			else inner?.push(undefined);
 		}
 	}
+
+	return result;
 }

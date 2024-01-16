@@ -1,4 +1,17 @@
 // Write your types here! ✨
+declare global {
+	interface Window {
+		passports: Passports;
+	}
+}
+export interface Passport {
+	name: string;
+	expires: Date;
+}
+
+interface Passports {
+	[i: string]: Passport | undefined;
+}
 
 export function checkPassport(id: string) {
 	const passport = window.passports[id];
